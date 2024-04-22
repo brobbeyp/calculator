@@ -50,3 +50,17 @@ button {
 #digits div {
     height: 25%;
 }
+
+#row-4 {
+    justify-content: center;
+}
+
+#zero, #clear {
+    width: 50%;
+    flex-grow: 0;
+}
+
+#operations {
+    flex-direction: column;
+    flex-grow: 1;
+}

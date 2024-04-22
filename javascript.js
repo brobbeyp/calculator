@@ -29,6 +29,7 @@ const operate = (x, y, operator) => {
 let firstOperand = 0;
 let secondOperand = 0;
 let operator = '' ;
-let result = 0;
+let display = document.querySelector('#display')
+let result = display.textContent
 
 
