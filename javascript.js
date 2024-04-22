@@ -49,12 +49,9 @@ const updateOperands = () => {
     if (parsed[2] !== '') {
         firstOperand = Number.parseInt(parsed[0]);
         secondOperand = Number.parseInt(parsed[2]);
-        console.log(firstOperand);
-        console.log(secondOperand);
         
     } else {
         firstOperand = Number.parseInt(parsed[0]);
-        console.log(firstOperand);
     };
 }
 
@@ -71,7 +68,31 @@ const clearDisplay = () => {
     for (let button of operatorButtons) {
             button.disabled = false
         };
-    };
+};
+
+const compute = () => {
+    if (parsed == [] || parsed[2] == '') {
+        console.warn('Please input a proper equation');
+    } else {
+        convertOperands();
+        console.log(parsed[0]);
+        console.log(parsed[2]);
+        if (parsed[1] === '+') {
+            display.textContent =  add(parsed[0], parsed[2])
+        } else if (parsed[1] === '-') {
+            display.textContent = subtract(parsed[0], parsed[2])
+        } else if (parsed[1] === '*') {
+            display.textContent =  multiply(parsed[0], parsed[2])
+        } else if (parsed[1] === '/') {
+            display.textContent = divide(parsed[0], parsed[2])
+        }
+    }
+}
+
+const convertOperands = () => {
+    parsed[0] = Number.parseInt(parsed[0]);
+    parsed[2] = Number.parseInt(parsed[2]);
+}
 
 
 const display = document.querySelector('#display');
@@ -85,6 +106,8 @@ clearButton.addEventListener('click', clearDisplay);
 operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(button => button.addEventListener('click', updateDisplayOperator))
 
+equalButton = document.querySelector('#equals');
+equalButton.addEventListener('click', compute)
 
 let parsed = []
 let firstOperand = '';
