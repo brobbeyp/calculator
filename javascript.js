@@ -42,8 +42,14 @@ const updateDisplayOperator = (e) => {
     updateOperands();
 }
 
+const enableButtons = () => {
+    for (let button of operatorButtons) {
+            button.disabled = false
+        };
+    
+};
 
-const updateOperands = () => {
+const updateOperands = () => {true
     parseDisplay();
 
     if (parsed[2] !== '') {
@@ -71,7 +77,7 @@ const clearDisplay = () => {
 };
 
 const compute = () => {
-    if (parsed == [] || parsed[2] == '') {
+    if (parsed == [] || typeof parsed[2] != 'string') {
         console.warn('Please input a proper equation');
     } else {
         convertOperands();
@@ -86,6 +92,9 @@ const compute = () => {
         } else if (parsed[1] === '/') {
             display.textContent = divide(parsed[0], parsed[2])
         }
+        firstOperand = display.textContent;
+        secondOperand = '';
+        enableButtons();
     }
 }
 
