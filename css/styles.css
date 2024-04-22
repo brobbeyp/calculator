@@ -13,11 +13,23 @@ div {
     display: flex;
 }
 
+button {
+    flex-grow: 1;
+    font-size: 50px;
+
+}
+
 #content-container {
     flex-direction: column;
     width: 50%;
+    height: 80%;
     border: 10px solid #000;
     margin: 0 auto;
+    
+}
+
+#calculator-container {
+    flex-grow: 1;
 }
 
 #display {
@@ -27,4 +39,14 @@ div {
     font-size: 50px;
     justify-content: center;
     align-items: center;
+}
+
+#digits {
+    width: 75%;
+    flex-direction: column;
+
+}
+
+#digits div {
+    height: 25%;
 }
