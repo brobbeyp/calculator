@@ -28,24 +28,53 @@ const operate = (x, y, operator) => {
 
 const updateDisplay = (e) => {
     display.textContent += `${e.target.textContent}`;
+    updateOperands();
 }
 
 const updateDisplayOperator = (e) => {
     display.textContent += ` ${e.target.textContent} `;
     for (let button of operatorButtons) {
-        console.log(button.textContent);
         if (button.textContent !== e.target.textContent) {
             button.disabled = true
         };
-    }
+    
+    };
+    updateOperands();
+}
+
+
+const updateOperands = () => {
+    parseDisplay();
+
+    if (parsed[2] !== '') {
+        firstOperand = Number.parseInt(parsed[0]);
+        secondOperand = Number.parseInt(parsed[2]);
+        console.log(firstOperand);
+        console.log(secondOperand);
+        
+    } else {
+        firstOperand = Number.parseInt(parsed[0]);
+        console.log(firstOperand);
+    };
+}
+
+
+const parseDisplay = () => {
+    parsed = display.textContent.split(' ')
 }
 
 const clearDisplay = () => {
     display.textContent = '';
-}
+    firstOperand = '';
+    secondOperand = '';
+    operator = '';
+    for (let button of operatorButtons) {
+            button.disabled = false
+        };
+    };
+
 
 const display = document.querySelector('#display');
-let result = display.textContent;
 
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
@@ -57,9 +86,9 @@ operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(button => button.addEventListener('click', updateDisplayOperator))
 
 
-
-let firstOperand = 0;
-let secondOperand = 0;
+let parsed = []
+let firstOperand = '';
+let secondOperand = '';
 let operator = '' ;
 
 
