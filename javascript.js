@@ -26,10 +26,41 @@ const operate = (x, y, operator) => {
     };
 }
 
+const updateDisplay = (e) => {
+    display.textContent += `${e.target.textContent}`;
+}
+
+const updateDisplayOperator = (e) => {
+    display.textContent += ` ${e.target.textContent} `;
+    for (let button of operatorButtons) {
+        console.log(button.textContent);
+        if (button.textContent !== e.target.textContent) {
+            button.disabled = true
+        };
+    }
+}
+
+const clearDisplay = () => {
+    display.textContent = '';
+}
+
+const display = document.querySelector('#display');
+let result = display.textContent;
+
+const numberButtons = document.querySelectorAll('.number');
+numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
+
+const clearButton = document.querySelector('#clear');
+clearButton.addEventListener('click', clearDisplay);
+
+operatorButtons = document.querySelectorAll('.operator');
+operatorButtons.forEach(button => button.addEventListener('click', updateDisplayOperator))
+
+
+
 let firstOperand = 0;
 let secondOperand = 0;
 let operator = '' ;
-let display = document.querySelector('#display')
-let result = display.textContent
+
 
 
