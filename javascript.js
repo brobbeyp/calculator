@@ -39,10 +39,25 @@ const updateDisplay = (e) => {
             updateOperands();
         }
     updateOperands();
+
+    if (e.target.id === 'decimal') {
+        if (parsed.length === 1) {
+            if (parsed[0].includes('.')) {
+                decimalButton.removeEventListener('click', updateDisplay)
+            }
+        } else if (parsed.length > 1) {
+            if (parsed[2].includes('.')) {
+                decimalButton.removeEventListener('click', updateDisplay)
+            }
+        }
+    }
+    
 }
 
 const updateDisplayOperator = (e) => {
     parseDisplay();
+    decimalButton.disabled = false;
+
     if (parsed[2] != '') {
         compute()
     }
@@ -53,6 +68,7 @@ const updateDisplayOperator = (e) => {
         compute();
         display.textContent += ` ${e.target.textContent} `;
     }
+    decimalButton.addEventListener('click', updateDisplay)
 };
 
 const updateOperands = () => {true
@@ -78,9 +94,6 @@ const disableButtons = () => {
             button.disabled = true
         };
     }
-
-
-
 
 const parseDisplay = () => {
     parsed = display.textContent.split(' ')
@@ -145,6 +158,14 @@ operatorButtons.forEach(button => button.addEventListener('click', updateDisplay
 
 equalButton = document.querySelector('#equals');
 equalButton.addEventListener('click', compute)
+
+const decimalButton = document.querySelector('#decimal')
+
+// const toggleDecimalButton = () => {
+//     if (decimalButton.disab)
+//     decimalButton.removeEventListener('click', updateDisplay)
+// };
+
 
 let parsed = []
 let firstOperand = '';

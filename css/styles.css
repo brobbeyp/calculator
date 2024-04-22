@@ -55,9 +55,9 @@ button {
     justify-content: center;
 }
 
-#zero, #clear {
-    width: 50%;
-    flex-grow: 0;
+#row-4 button {
+    width: 33%;
+    flex-grow: 1;
 }
 
 #operations {
