@@ -11,6 +11,10 @@ const multiply = (x, y) => {
 };
 
 const divide = (x, y) => {
+    if (y === 0) {
+        console.error('No diving by zero!')
+        return x
+    }
     return x/y;
 };
 
@@ -27,26 +31,28 @@ const operate = (x, y, operator) => {
 }
 
 const updateDisplay = (e) => {
+    if (!resultCalculated) {
     display.textContent += `${e.target.textContent}`;
+        } else {
+            display.textContent = `${e.target.textContent}`;
+            resultCalculated = false;
+            updateOperands();
+        }
     updateOperands();
 }
 
 const updateDisplayOperator = (e) => {
+    parseDisplay();
+    if (parsed[2] != '') {
+        compute()
+    }
+    resultCalculated = false;
     display.textContent += ` ${e.target.textContent} `;
-    for (let button of operatorButtons) {
-        if (button.textContent !== e.target.textContent) {
-            button.disabled = true
-        };
-    
-    };
     updateOperands();
-}
-
-const enableButtons = () => {
-    for (let button of operatorButtons) {
-            button.disabled = false
-        };
-    
+    if (parsed[2] != '') {
+        compute();
+        display.textContent += ` ${e.target.textContent} `;
+    }
 };
 
 const updateOperands = () => {true
@@ -60,6 +66,20 @@ const updateOperands = () => {true
         firstOperand = Number.parseInt(parsed[0]);
     };
 }
+
+const enableButtons = () => {
+    for (let button of operatorButtons) {
+            button.disabled = false
+        };
+};
+
+const disableButtons = () => {
+    for (let button of operatorButtons) {
+            button.disabled = true
+        };
+    }
+
+
 
 
 const parseDisplay = () => {
@@ -77,12 +97,11 @@ const clearDisplay = () => {
 };
 
 const compute = () => {
-    if (parsed == [] || typeof parsed[2] != 'string') {
-        console.warn('Please input a proper equation');
+    if (parsed == [] || parsed[2] == '') {
+        console.error('Please input a proper equation');
     } else {
         convertOperands();
-        console.log(parsed[0]);
-        console.log(parsed[2]);
+
         if (parsed[1] === '+') {
             display.textContent =  add(parsed[0], parsed[2])
         } else if (parsed[1] === '-') {
@@ -92,15 +111,24 @@ const compute = () => {
         } else if (parsed[1] === '/') {
             display.textContent = divide(parsed[0], parsed[2])
         }
+        display.textContent = truncateDecimals(display.textContent)
         firstOperand = display.textContent;
         secondOperand = '';
         enableButtons();
+        resultCalculated = true;
     }
 }
 
+const truncateDecimals = (float) => {
+    if (float % 1 != 0) {
+        return Number(float).toFixed(5)
+    } 
+    return float
+}
+
 const convertOperands = () => {
-    parsed[0] = Number.parseInt(parsed[0]);
-    parsed[2] = Number.parseInt(parsed[2]);
+    parsed[0] = Number.parseFloat(parsed[0]);
+    parsed[2] = Number.parseFloat(parsed[2]);
 }
 
 
@@ -122,6 +150,6 @@ let parsed = []
 let firstOperand = '';
 let secondOperand = '';
 let operator = '' ;
-
+let resultCalculated = false
 
 
