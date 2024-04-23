@@ -124,6 +124,7 @@ const clearDisplay = () => {
     for (let button of operatorButtons) {
             button.disabled = false
         };
+    decimalButton.disabled = false
 };
 
 
