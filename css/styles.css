@@ -12,6 +12,7 @@ html, body {
 body {
     display: flex;
     align-items: center;
+    background-color: #731DE2;
 }
 
 div {
