@@ -114,7 +114,34 @@ const clearDisplay = () => {
         };
 };
 
+
+const displayResult = () => {
+    convertOperands();
+
+    if (parsed[1] === '+') {
+        display.textContent =  add(parsed[0], parsed[2])
+    } else if (parsed[1] === '-') {
+        display.textContent = subtract(parsed[0], parsed[2])
+    } else if (parsed[1] === '*') {
+        display.textContent =  multiply(parsed[0], parsed[2])
+    } else if (parsed[1] === '/') {
+        display.textContent = divide(parsed[0], parsed[2])
+    }
+
+    display.textContent = truncateDecimals(display.textContent)
+    firstOperand = display.textContent;
+    secondOperand = '';
+    enableButtons();
+    resultCalculated = true;
+
+}
+
 const compute = () => {
+    // This case should set parsed[2] to parsed[0] and then compute as normal
+    // maybe remove last else statement to new function and name this errorCheck
+    // it will run if statements to check how to compute
+
+
     if (parsed == [] || parsed[2] == '') {
         display.textContent = 'Please input a proper equation!';
         parsed = [];
@@ -127,22 +154,7 @@ const compute = () => {
         isResultProper = false;
 
     } else {
-    convertOperands();
-
-    if (parsed[1] === '+') {
-        display.textContent =  add(parsed[0], parsed[2])
-    } else if (parsed[1] === '-') {
-        display.textContent = subtract(parsed[0], parsed[2])
-    } else if (parsed[1] === '*') {
-        display.textContent =  multiply(parsed[0], parsed[2])
-    } else if (parsed[1] === '/') {
-        display.textContent = divide(parsed[0], parsed[2])
-    }
-    display.textContent = truncateDecimals(display.textContent)
-    firstOperand = display.textContent;
-    secondOperand = '';
-    enableButtons();
-    resultCalculated = true;
+        displayResult();
     };
 
 }
