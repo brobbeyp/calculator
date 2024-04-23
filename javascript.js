@@ -12,10 +12,11 @@ const multiply = (x, y) => {
 
 const divide = (x, y) => {
     if (y === 0) {
-        console.error('No diving by zero!')
-        return x
+        display.textContent = 'No dividing by zero!';
+    } else {
+        return x/y;
     }
-    return x/y;
+    
 };
 
 const operate = (x, y, operator) => {
@@ -31,13 +32,17 @@ const operate = (x, y, operator) => {
 }
 
 const updateDisplay = (e) => {
+    if (isResultProper === false) {
+        clearDisplay();
+        isResultProper = true;
+    };
     if (!resultCalculated) {
     display.textContent += `${e.target.textContent}`;
-        } else {
+    } else {
             display.textContent = `${e.target.textContent}`;
             resultCalculated = false;
             updateOperands();
-        }
+    };
     updateOperands();
 
     if (e.target.id === 'decimal') {
@@ -111,25 +116,35 @@ const clearDisplay = () => {
 
 const compute = () => {
     if (parsed == [] || parsed[2] == '') {
-        console.error('Please input a proper equation');
-    } else {
-        convertOperands();
+        display.textContent = 'Please input a proper equation!';
+        parsed = [];
+        isResultProper = false;
 
-        if (parsed[1] === '+') {
-            display.textContent =  add(parsed[0], parsed[2])
-        } else if (parsed[1] === '-') {
-            display.textContent = subtract(parsed[0], parsed[2])
-        } else if (parsed[1] === '*') {
-            display.textContent =  multiply(parsed[0], parsed[2])
-        } else if (parsed[1] === '/') {
-            display.textContent = divide(parsed[0], parsed[2])
-        }
-        display.textContent = truncateDecimals(display.textContent)
-        firstOperand = display.textContent;
-        secondOperand = '';
-        enableButtons();
-        resultCalculated = true;
+    } else if (parsed[1] === '/' && parsed[2] === '0') {
+        console.log('diving by zero');
+        display.textContent = 'No dividing by zero!';
+        parsed = [];
+        isResultProper = false;
+
+    } else {
+    convertOperands();
+
+    if (parsed[1] === '+') {
+        display.textContent =  add(parsed[0], parsed[2])
+    } else if (parsed[1] === '-') {
+        display.textContent = subtract(parsed[0], parsed[2])
+    } else if (parsed[1] === '*') {
+        display.textContent =  multiply(parsed[0], parsed[2])
+    } else if (parsed[1] === '/') {
+        display.textContent = divide(parsed[0], parsed[2])
     }
+    display.textContent = truncateDecimals(display.textContent)
+    firstOperand = display.textContent;
+    secondOperand = '';
+    enableButtons();
+    resultCalculated = true;
+    };
+
 }
 
 const truncateDecimals = (float) => {
@@ -172,5 +187,6 @@ let firstOperand = '';
 let secondOperand = '';
 let operator = '' ;
 let resultCalculated = false
+let isResultProper = true
 
 
