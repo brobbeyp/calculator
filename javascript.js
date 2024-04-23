@@ -76,7 +76,7 @@ const updateDisplayOperator = (e) => {
     decimalButton.addEventListener('click', updateDisplay)
 };
 
-const updateOperands = () => {true
+const updateOperands = () => {
     parseDisplay();
 
     if (parsed[2] !== '') {
@@ -109,6 +109,7 @@ const clearDisplay = () => {
     firstOperand = '';
     secondOperand = '';
     operator = '';
+    parsed  = []
     for (let button of operatorButtons) {
             button.disabled = false
         };
@@ -116,6 +117,7 @@ const clearDisplay = () => {
 
 
 const displayResult = () => {
+    console.log('displaying')
     convertOperands();
 
     if (parsed[1] === '+') {
@@ -126,7 +128,10 @@ const displayResult = () => {
         display.textContent =  multiply(parsed[0], parsed[2])
     } else if (parsed[1] === '/') {
         display.textContent = divide(parsed[0], parsed[2])
-    }
+    };
+
+    parsed[0] = display.textContent;
+    parsed[2] = '';
 
     display.textContent = truncateDecimals(display.textContent)
     firstOperand = display.textContent;
@@ -142,17 +147,21 @@ const compute = () => {
     // it will run if statements to check how to compute
 
 
-    if (parsed == [] || parsed[2] == '') {
-        display.textContent = 'Please input a proper equation!';
-        parsed = [];
-        isResultProper = false;
+    if (parsed[0] !== '' && parsed[2] == '') {
+        let operator = parsed[1]
+        parsed[2] = parsed[0];
+        displayResult();
+        parsed[1] = operator;
 
     } else if (parsed[1] === '/' && parsed[2] === '0') {
-        console.log('diving by zero');
         display.textContent = 'No dividing by zero!';
         parsed = [];
         isResultProper = false;
 
+    } else if (parsed.length > 3){
+        display.textContent = 'Please input a proper equation!';
+        parsed = [];
+        isResultProper = false;
     } else {
         displayResult();
     };
@@ -187,11 +196,6 @@ equalButton = document.querySelector('#equals');
 equalButton.addEventListener('click', compute)
 
 const decimalButton = document.querySelector('#decimal')
-
-// const toggleDecimalButton = () => {
-//     if (decimalButton.disab)
-//     decimalButton.removeEventListener('click', updateDisplay)
-// };
 
 
 let parsed = []
