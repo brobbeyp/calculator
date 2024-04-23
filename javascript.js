@@ -1,3 +1,5 @@
+// Functions to handle basic computations
+
 const add = (x,y) => {
     return x + y;
 };
@@ -19,23 +21,15 @@ const divide = (x, y) => {
     
 };
 
-const operate = (x, y, operator) => {
-    if (operator === '+') {
-        return add(x,y);
-    } else if (operator === '-') {
-        return subtract(x,y);
-    } else if (operator === '*') {
-        return multiply(x,y);
-    } else if (operator === '/') {
-        return divide(x,y);
-    };
-}
+// Functions to handle button click events for number and operator buttons to
+// add target's string to display
 
 const updateDisplay = (e) => {
     if (isResultProper === false) {
         clearDisplay();
         isResultProper = true;
     };
+
     if (!resultCalculated) {
     display.textContent += `${e.target.textContent}`;
     } else {
@@ -43,17 +37,22 @@ const updateDisplay = (e) => {
             resultCalculated = false;
             updateOperands();
     };
+
     updateOperands();
 
     if (e.target.id === 'decimal') {
         if (parsed.length === 1) {
+
             if (parsed[0].includes('.')) {
                 decimalButton.removeEventListener('click', updateDisplay)
+
             }
         } else if (parsed.length > 1) {
+
             if (parsed[2].includes('.')) {
                 decimalButton.removeEventListener('click', updateDisplay)
             }
+
         }
     }
     
@@ -66,13 +65,16 @@ const updateDisplayOperator = (e) => {
     if (parsed[2] != '') {
         compute()
     }
+
     resultCalculated = false;
     display.textContent += ` ${e.target.textContent} `;
     updateOperands();
+
     if (parsed[2] != '') {
         compute();
         display.textContent += ` ${e.target.textContent} `;
     }
+
     decimalButton.addEventListener('click', updateDisplay)
 };
 
@@ -80,44 +82,54 @@ const updateOperands = () => {
     parseDisplay();
 
     if (parsed[2] !== '') {
+
         firstOperand = Number.parseInt(parsed[0]);
         secondOperand = Number.parseInt(parsed[2]);
         
     } else {
+
         firstOperand = Number.parseInt(parsed[0]);
     };
 }
 
+// Functions for CSS manipulation of buttons and display
+
 const enableButtons = () => {
+
     for (let button of operatorButtons) {
             button.disabled = false
         };
 };
 
 const disableButtons = () => {
+
     for (let button of operatorButtons) {
             button.disabled = true
         };
     }
 
 const parseDisplay = () => {
+
     parsed = display.textContent.split(' ')
 }
 
 const clearDisplay = () => {
+
     display.textContent = '';
     firstOperand = '';
     secondOperand = '';
     operator = '';
     parsed  = []
+    
     for (let button of operatorButtons) {
             button.disabled = false
         };
 };
 
 
+// Functions that process parsed array to generate a result and update parsed
+
 const displayResult = () => {
-    console.log('displaying')
     convertOperands();
 
     if (parsed[1] === '+') {
@@ -142,11 +154,6 @@ const displayResult = () => {
 }
 
 const compute = () => {
-    // This case should set parsed[2] to parsed[0] and then compute as normal
-    // maybe remove last else statement to new function and name this errorCheck
-    // it will run if statements to check how to compute
-
-
     if (parsed[0] !== '' && parsed[2] == '') {
         let operator = parsed[1]
         parsed[2] = parsed[0];
@@ -162,11 +169,14 @@ const compute = () => {
         display.textContent = 'Please input a proper equation!';
         parsed = [];
         isResultProper = false;
+        
     } else {
         displayResult();
     };
 
 }
+
+// Accessory Functions
 
 const truncateDecimals = (float) => {
     if (float % 1 != 0) {
@@ -179,6 +189,8 @@ const convertOperands = () => {
     parsed[0] = Number.parseFloat(parsed[0]);
     parsed[2] = Number.parseFloat(parsed[2]);
 }
+
+// Selectors
 
 
 const display = document.querySelector('#display');
@@ -197,6 +209,7 @@ equalButton.addEventListener('click', compute)
 
 const decimalButton = document.querySelector('#decimal')
 
+// Initializing Variables 
 
 let parsed = []
 let firstOperand = '';
