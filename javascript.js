@@ -154,7 +154,7 @@ const displayResult = () => {
 }
 
 const compute = () => {
-    if (parsed[0] !== '' && parsed[2] == '') {
+    if (parsed[0] !== '' && parsed[2] == '' && parsed.length === 3) {
         let operator = parsed[1]
         parsed[2] = parsed[0];
         displayResult();
